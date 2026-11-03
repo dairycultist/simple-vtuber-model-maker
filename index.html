@@ -80,6 +80,7 @@
 		body { display: flex; gap: 1em; }
 		img { height: 100px; }
 		canvas { border: 1px solid black; }
+		input[type="range"] { transform: translateY(0.5em); }
 	</style>
 </head>
 <body onload="start();">
@@ -94,11 +95,25 @@
 
 		<br>
 		<label for="input-head">Head offset:</label>
-		<input type="range" min="0" max="200" value="180" class="slider" id="offset-head" onmousedown="setNeckPivotVisible(true);" onmouseup="setNeckPivotVisible(false);">
+		<input type="range" min="0" max="200" value="157" class="slider" id="offset-head"
+			onchange="document.getElementById('offset-head-readout').innerText = this.value;"
+			onmousedown="setNeckPivotVisible(true);"
+			onmouseup="setNeckPivotVisible(false);">
+		<span id="offset-head-readout"></span>
 
 		<br>
 		<label for="input-head">Neck offset:</label>
-		<input type="range" min="0" max="200" value="50" class="slider" id="offset-neck" onmousedown="setNeckPivotVisible(true);" onmouseup="setNeckPivotVisible(false);">
+		<input type="range" min="0" max="200" value="30" class="slider" id="offset-neck"
+			onchange="document.getElementById('offset-neck-readout').innerText = this.value;"
+			onmousedown="setNeckPivotVisible(true);"
+			onmouseup="setNeckPivotVisible(false);">
+		<span id="offset-neck-readout"></span>
+
+		<script>
+			// initialize readouts
+			document.getElementById("offset-head-readout").innerText = document.getElementById("offset-head").value;
+			document.getElementById("offset-neck-readout").innerText = document.getElementById("offset-neck").value;
+		</script>
 
 		<hr>
 
