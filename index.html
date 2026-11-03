@@ -96,7 +96,7 @@
 		<br>
 		<label for="input-head">Head offset:</label>
 		<input type="range" min="0" max="200" value="157" class="slider" id="offset-head"
-			onchange="document.getElementById('offset-head-readout').innerText = this.value;"
+			oninput="offsetHeadReadout.innerText = this.value;"
 			onmousedown="setNeckPivotVisible(true);"
 			onmouseup="setNeckPivotVisible(false);">
 		<span id="offset-head-readout"></span>
@@ -104,15 +104,18 @@
 		<br>
 		<label for="input-head">Neck offset:</label>
 		<input type="range" min="0" max="200" value="30" class="slider" id="offset-neck"
-			onchange="document.getElementById('offset-neck-readout').innerText = this.value;"
+			oninput="offsetNeckReadout.innerText = this.value;"
 			onmousedown="setNeckPivotVisible(true);"
 			onmouseup="setNeckPivotVisible(false);">
 		<span id="offset-neck-readout"></span>
 
 		<script>
 			// initialize readouts
-			document.getElementById("offset-head-readout").innerText = document.getElementById("offset-head").value;
-			document.getElementById("offset-neck-readout").innerText = document.getElementById("offset-neck").value;
+			const offsetHeadReadout = document.getElementById("offset-head-readout");
+			const offsetNeckReadout = document.getElementById("offset-neck-readout");
+
+			offsetHeadReadout.innerText = document.getElementById("offset-head").value;
+			offsetNeckReadout.innerText = document.getElementById("offset-neck").value;
 		</script>
 
 		<hr>
