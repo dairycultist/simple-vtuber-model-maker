@@ -7,6 +7,8 @@
 
 		// https://x.com/Lou_Pancake_/status/2117045864934121597?a=IuXO6Z2q48M2un1jhOU
 
+		let neckPivotVisible = false;
+
 		function start() {
 
 			const canvas = document.getElementById("canvas");
@@ -14,6 +16,9 @@
 
 			const head = document.getElementById("preview-head");
 			const body = document.getElementById("preview-body");
+
+			const headOffset = document.getElementById("offset-head");
+			const neckOffset = document.getElementById("offset-neck");
 
 			const dt = 1000 / 60;
 
@@ -26,11 +31,26 @@
 				render.drawImage(body, 100, 150, 200, 200);
 
 				render.save();
-				render.translate(200, 200); // position on canvas
+				render.translate(200, 150 + Number(neckOffset.value)); // position on canvas
 				render.rotate(Math.sin(t * 3.0) * 0.2);
-				render.translate(-100, -180); // pivot
+				render.translate(-100, -Number(headOffset.value)); // pivot
 				render.drawImage(head, 0, 0, 200, 200);
 				render.restore();
+
+				if (neckPivotVisible) {
+
+					render.strokeStyle = "red";
+
+					render.beginPath();
+
+					let y = 150 + Number(neckOffset.value);
+
+					render.moveTo(190, y - 10);
+					render.lineTo(210, y + 10);
+					render.moveTo(190, y + 10);
+					render.lineTo(210, y - 10);
+					render.stroke();
+				}
 
 				t += dt / 1000.0;
 
@@ -50,6 +70,11 @@
 				preview.src = "";
 			}
 		}
+
+		function setNeckPivotVisible(value) {
+
+			neckPivotVisible = value;
+		}
 	</script>
 	<style>
 		body { display: flex; gap: 1em; }
@@ -62,15 +87,25 @@
 	<canvas id="canvas" width="400" height="400"></canvas>
 
 	<div>
+		<img id="preview-head" src="template_head.png">
+		<br>
 		<label for="input-head">Head:</label>
 		<input type="file" id="input-head" accept="image/*" onchange="readURL('head');">
-		<img id="preview-head" src="template_head.png">
+
+		<br>
+		<label for="input-head">Head offset:</label>
+		<input type="range" min="0" max="200" value="180" class="slider" id="offset-head" onmousedown="setNeckPivotVisible(true);" onmouseup="setNeckPivotVisible(false);">
+
+		<br>
+		<label for="input-head">Neck offset:</label>
+		<input type="range" min="0" max="200" value="50" class="slider" id="offset-neck" onmousedown="setNeckPivotVisible(true);" onmouseup="setNeckPivotVisible(false);">
 
 		<hr>
 
+		<img id="preview-body" src="template_body.png">
+		<br>
 		<label for="input-body">Body:</label>
 		<input type="file" id="input-body" accept="image/*" onchange="readURL('body');">
-		<img id="preview-body" src="template_body.png">
 	</div>
 
 </body>
