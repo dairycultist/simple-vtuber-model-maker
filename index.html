@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>17-TET DAW</title>
+	<script>
+
+		// https://x.com/Lou_Pancake_/status/2117045864934121597?a=IuXO6Z2q48M2un1jhOU
+
+		function start() {
+
+			const canvas = document.getElementById("canvas");
+			render = canvas.getContext("2d");
+		}
+
+		function readURL(stringid) {
+
+			let preview = document.getElementById("preview-" + stringid);
+			let file    = document.getElementById("input-" + stringid).files[0];
+
+			if (file) {
+				let reader = new FileReader();
+				reader.onloadend = () => { preview.src = reader.result; }
+				reader.readAsDataURL(file);
+			} else {
+				preview.src = "";
+			}
+		}
+	</script>
+	<style>
+		img { height: 100px; }
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="600" height="600"></canvas>
+
+	<label for="input-head">Head:</label>
+	<input type="file" id="input-head" accept="image/*" onchange="readURL('head');">
+	<img id="preview-head">
+</body>
+</html>
