@@ -33,6 +33,8 @@
 			const headOffset = document.getElementById("offset-head");
 			const neckOffset = document.getElementById("offset-neck");
 			const mouthOffset = document.getElementById("offset-mouth");
+			const eyeOffset = document.getElementById("offset-eye");
+			const eyeSpacing = document.getElementById("spacing-eye");
 
 			const dt = 1000 / 60;
 
@@ -56,26 +58,26 @@
 				if (Math.floor(t * 8.3) % 20 == 0) {
 
 					if (!eyeLeftClosedMirror.checked)
-						render.drawImage(eyeLeftClosed, 35, 100, 50, 50);
+						render.drawImage(eyeLeftClosed, Number(eyeSpacing.value), Number(eyeOffset.value), 50, 50);
 					if (!eyeRightClosedMirror.checked)
-						render.drawImage(eyeRightClosed, 200 - 50 - 35, 100, 50, 50);
+						render.drawImage(eyeRightClosed, 200 - 50 - Number(eyeSpacing.value), Number(eyeOffset.value), 50, 50);
 					render.scale(-1, 1);
 					if (eyeLeftClosedMirror.checked)
-						render.drawImage(eyeLeftClosed, -50 - 35, 100, 50, 50);
+						render.drawImage(eyeLeftClosed, -50 - Number(eyeSpacing.value), Number(eyeOffset.value), 50, 50);
 					if (eyeRightClosedMirror.checked)
-						render.drawImage(eyeRightClosed, 35 - 200, 100, 50, 50);
+						render.drawImage(eyeRightClosed, Number(eyeSpacing.value) - 200, Number(eyeOffset.value), 50, 50);
 
 				} else {
 
 					if (!eyeLeftOpenMirror.checked)
-						render.drawImage(eyeLeftOpen, 35, 100, 50, 50);
+						render.drawImage(eyeLeftOpen, Number(eyeSpacing.value), Number(eyeOffset.value), 50, 50);
 					if (!eyeRightOpenMirror.checked)
-						render.drawImage(eyeRightOpen, 200 - 50 - 35, 100, 50, 50);
+						render.drawImage(eyeRightOpen, 200 - 50 - Number(eyeSpacing.value), Number(eyeOffset.value), 50, 50);
 					render.scale(-1, 1);
 					if (eyeLeftOpenMirror.checked)
-						render.drawImage(eyeLeftOpen, -50 - 35, 100, 50, 50);
+						render.drawImage(eyeLeftOpen, -50 - Number(eyeSpacing.value), Number(eyeOffset.value), 50, 50);
 					if (eyeRightOpenMirror.checked)
-						render.drawImage(eyeRightOpen, 35 - 200, 100, 50, 50);
+						render.drawImage(eyeRightOpen, Number(eyeSpacing.value) - 200, Number(eyeOffset.value), 50, 50);
 				}
 
 				render.restore();
@@ -203,6 +205,28 @@
 				<input type="file" id="input-mouth-open" accept="image/*" onchange="readURL('mouth-open');">
 			</div>
 		</div>
+
+		<div class="region">
+			<div>
+				<label for="offset-eye">Eye offset:</label>
+				<input type="range" min="0" max="150" value="100" class="slider" id="offset-eye" oninput="offsetEyeReadout.innerText = this.value;">
+				<span id="offset-eye-readout"></span>
+
+				<br>
+				<label for="spacing-eye">Eye spacing:</label>
+				<input type="range" min="0" max="50" value="35" class="slider" id="spacing-eye" oninput="spacingEyeReadout.innerText = this.value;">
+				<span id="spacing-eye-readout"></span>
+			</div>
+		</div>
+
+		<script>
+			// initialize readouts
+			const offsetEyeReadout = document.getElementById("offset-eye-readout");
+			const spacingEyeReadout = document.getElementById("spacing-eye-readout");
+
+			offsetEyeReadout.innerText = document.getElementById("offset-eye").value;
+			spacingEyeReadout.innerText = document.getElementById("spacing-eye").value;
+		</script>
 
 		<div class="region">
 			<img id="preview-eye-left-open" src="template_eye_open.png">
