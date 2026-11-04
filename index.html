@@ -30,11 +30,11 @@
 			const eyeRightOpenMirror   = document.getElementById("mirror-eye-right-open");
 			const eyeRightClosedMirror = document.getElementById("mirror-eye-right-closed");
 
-			const headOffset = document.getElementById("offset-head");
-			const neckOffset = document.getElementById("offset-neck");
+			const headOffset  = document.getElementById("offset-head");
+			const neckOffset  = document.getElementById("offset-neck");
 			const mouthOffset = document.getElementById("offset-mouth");
-			const eyeOffset = document.getElementById("offset-eye");
-			const eyeSpacing = document.getElementById("spacing-eye");
+			const eyeOffset   = document.getElementById("offset-eye");
+			const eyeSpacing  = document.getElementById("spacing-eye");
 
 			const dt = 1000 / 60;
 
@@ -125,38 +125,56 @@
 		body { display: flex; gap: 1em; align-items: flex-start; justify-content: center; }
 		canvas { border: 1px solid black; }
 		input[type="range"] { transform: translateY(0.5em); }
-		.region { display: flex; gap: 1em; align-items: flex-start; border-bottom: 1px dotted grey; margin-bottom: 0.5em; }
-		.region > img { height: 100px; }
+		img { height: 100px; }
+		table { border-collapse: collapse; }
+		tr { border: 1px solid black; }
 	</style>
 </head>
 <body onload="start();">
 
 	<canvas id="canvas" width="400" height="400"></canvas>
 
-	<div>
-		<div class="region">
-			<img id="preview-head" src="template_head.png">
-			<div>
-				<label for="input-head">Head:</label>
-				<input type="file" id="input-head" accept="image/*" onchange="readURL('head');">
+	<table>
+		<tr>
+			<td colspan="2">
+				<img id="preview-head" src="template_head.png">
+			</td>
+		</tr>
 
-				<br>
+		<tr>
+			<td>
+				<label for="input-head">Head:</label>
+			</td>
+			<td>
+				<input type="file" id="input-head" accept="image/*" onchange="readURL('head');">
+			</td>
+		</tr>
+
+		<tr>
+			<td>
 				<label for="offset-head">Head offset:</label>
+			</td>
+			<td>
 				<input type="range" min="0" max="200" value="157" class="slider" id="offset-head"
 					oninput="offsetHeadReadout.innerText = this.value;"
 					onmousedown="setNeckPivotVisible(true);"
 					onmouseup="setNeckPivotVisible(false);">
 				<span id="offset-head-readout"></span>
+			</td>
+		</tr>
 
-				<br>
+		<tr>
+			<td>
 				<label for="offset-neck">Neck offset:</label>
+			</td>
+			<td>
 				<input type="range" min="0" max="200" value="30" class="slider" id="offset-neck"
 					oninput="offsetNeckReadout.innerText = this.value;"
 					onmousedown="setNeckPivotVisible(true);"
 					onmouseup="setNeckPivotVisible(false);">
 				<span id="offset-neck-readout"></span>
-			</div>
-		</div>
+			</td>
+		</tr>
 
 		<script>
 			// initialize readouts
@@ -167,21 +185,30 @@
 			offsetNeckReadout.innerText = document.getElementById("offset-neck").value;
 		</script>
 
-		<div class="region">
-			<img id="preview-body" src="template_body.png">
-			<div>
-				<label for="input-body">Body:</label>
-				<input type="file" id="input-body" accept="image/*" onchange="readURL('body');">
-			</div>
-		</div>
+		<tr>
+			<td colspan="2">
+				<img id="preview-body" src="template_body.png">
+			</td>
+		</tr>
 
-		<div class="region">
-			<div>
+		<tr>
+			<td>
+				<label for="input-body">Body:</label>
+			</td>
+			<td>
+				<input type="file" id="input-body" accept="image/*" onchange="readURL('body');">
+			</td>
+		</tr>
+
+		<tr>
+			<td>
 				<label for="offset-mouth">Mouth offset:</label>
+			</td>
+			<td>
 				<input type="range" min="0" max="150" value="125" class="slider" id="offset-mouth" oninput="offsetMouthReadout.innerText = this.value;">
 				<span id="offset-mouth-readout"></span>
-			</div>
-		</div>
+			</td>
+		</tr>
 
 		<script>
 			// initialize readout
@@ -190,34 +217,59 @@
 			offsetMouthReadout.innerText = document.getElementById("offset-mouth").value;
 		</script>
 
-		<div class="region">
-			<img id="preview-mouth-closed" src="template_mouth_closed.png">
-			<div>
+		<tr>
+			<td colspan="2">
+				<img id="preview-mouth-closed" src="template_mouth_closed.png">
+				<img id="preview-mouth-open" src="template_mouth_open.png">
+			</td>
+		</tr>
+
+		<tr>
+			<td>
 				<label for="input-mouth-closed">Mouth (closed):</label>
+			</td>
+			<td>
 				<input type="file" id="input-mouth-closed" accept="image/*" onchange="readURL('mouth-closed');">
-			</div>
-		</div>
+			</td>
+		</tr>
 
-		<div class="region">
-			<img id="preview-mouth-open" src="template_mouth_open.png">
-			<div>
+		<tr>
+			<td>
 				<label for="input-mouth-open">Mouth (open):</label>
+			</td>
+			<td>
 				<input type="file" id="input-mouth-open" accept="image/*" onchange="readURL('mouth-open');">
-			</div>
-		</div>
+			</td>
+		</tr>
 
-		<div class="region">
-			<div>
+		<tr>
+			<td colspan="2">
+				<img id="preview-eye-left-open" src="template_eye_open.png">
+				<img id="preview-eye-right-open" src="template_eye_open.png" style="transform: scaleX(-1);">
+				<img id="preview-eye-left-closed" src="template_eye_closed.png">
+				<img id="preview-eye-right-closed" src="template_eye_closed.png" style="transform: scaleX(-1);">
+			</td>
+		</tr>
+
+		<tr>
+			<td>
 				<label for="offset-eye">Eye offset:</label>
+			</td>
+			<td>
 				<input type="range" min="0" max="150" value="100" class="slider" id="offset-eye" oninput="offsetEyeReadout.innerText = this.value;">
 				<span id="offset-eye-readout"></span>
+			</td>
+		</tr>
 
-				<br>
+		<tr>
+			<td>
 				<label for="spacing-eye">Eye spacing:</label>
+			</td>
+			<td>
 				<input type="range" min="0" max="50" value="35" class="slider" id="spacing-eye" oninput="spacingEyeReadout.innerText = this.value;">
 				<span id="spacing-eye-readout"></span>
-			</div>
-		</div>
+			</td>
+		</tr>
 
 		<script>
 			// initialize readouts
@@ -228,49 +280,53 @@
 			spacingEyeReadout.innerText = document.getElementById("spacing-eye").value;
 		</script>
 
-		<div class="region">
-			<img id="preview-eye-left-open" src="template_eye_open.png">
-			<div>
+		<tr>
+			<td>
 				<label for="input-eye-left-open">Left eye (open):</label>
+			</td>
+			<td>
 				<input type="file" id="input-eye-left-open" accept="image/*" onchange="readURL('eye-left-open');">
 				<br>
 				<input type="checkbox" id="mirror-eye-left-open" onchange="eyeLeftOpenPreview.style.transform = this.checked ? 'scaleX(-1)' : '';">
 				<label for="mirror-eye-left-open"> Mirror</label>
-			</div>
-		</div>
+			</td>
+		</tr>
 
-		<div class="region">
-			<img id="preview-eye-left-closed" src="template_eye_closed.png">
-			<div>
+		<tr>
+			<td>
 				<label for="input-eye-left-closed">Left eye (closed):</label>
+			</td>
+			<td>
 				<input type="file" id="input-eye-left-closed" accept="image/*" onchange="readURL('eye-left-closed');">
 				<br>
 				<input type="checkbox" id="mirror-eye-left-closed" onchange="eyeLeftClosedPreview.style.transform = this.checked ? 'scaleX(-1)' : '';">
 				<label for="mirror-eye-left-closed"> Mirror</label>
-			</div>
-		</div>
+			</td>
+		</tr>
 
-		<div class="region">
-			<img id="preview-eye-right-open" src="template_eye_open.png" style="transform: scaleX(-1);">
-			<div>
+		<tr>
+			<td>
 				<label for="input-eye-right-open">Right eye (open):</label>
+			</td>
+			<td>
 				<input type="file" id="input-eye-right-open" accept="image/*" onchange="readURL('eye-right-open');">
 				<br>
 				<input type="checkbox" id="mirror-eye-right-open" checked onchange="eyeRightOpenPreview.style.transform = this.checked ? 'scaleX(-1)' : '';">
 				<label for="mirror-eye-right-open"> Mirror</label>
-			</div>
-		</div>
+			</td>
+		</tr>
 
-		<div class="region">
-			<img id="preview-eye-right-closed" src="template_eye_closed.png" style="transform: scaleX(-1);">
-			<div>
+		<tr>
+			<td>
 				<label for="input-eye-right-closed">Right eye (closed):</label>
+			</td>
+			<td>
 				<input type="file" id="input-eye-right-closed" accept="image/*" onchange="readURL('eye-right-closed');">
 				<br>
 				<input type="checkbox" id="mirror-eye-right-closed" checked onchange="eyeRightClosedPreview.style.transform = this.checked ? 'scaleX(-1)' : '';">
 				<label for="mirror-eye-right-closed"> Mirror</label>
-			</div>
-		</div>
+			</td>
+		</tr>
 
 		<script>
 			// initialize preview mirroring
@@ -284,7 +340,7 @@
 			eyeRightOpenPreview.style.transform   = document.getElementById("mirror-eye-right-open").checked ? "scaleX(-1)" : "";
 			eyeRightClosedPreview.style.transform = document.getElementById("mirror-eye-right-closed").checked ? "scaleX(-1)" : "";
 		</script>
-	</div>
+	</table>
 
 </body>
 </html>
