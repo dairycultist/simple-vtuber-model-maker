@@ -6,6 +6,8 @@
 	<script>
 
 		// https://x.com/Lou_Pancake_/status/2117045864934121597?a=IuXO6Z2q48M2un1jhOU
+		// https://docs.inochi2d.com/en/latest/spec/inp/index.html
+		// https://steamcommunity.com/sharedfiles/filedetails/?l=thai&id=3028742615
 
 		let neckPivotVisible = false;
 
@@ -16,6 +18,12 @@
 
 			const head = document.getElementById("preview-head");
 			const body = document.getElementById("preview-body");
+			const mouthClosed = document.getElementById("preview-mouth-closed");
+			const mouthOpen   = document.getElementById("preview-mouth-open");
+			const eyeLeftOpen    = document.getElementById("preview-eye-left-open");
+			const eyeLeftClosed  = document.getElementById("preview-eye-left-closed");
+			const eyeRightOpen   = document.getElementById("preview-eye-right-open");
+			const eyeRightClosed = document.getElementById("preview-eye-right-closed");
 
 			const headOffset = document.getElementById("offset-head");
 			const neckOffset = document.getElementById("offset-neck");
@@ -30,11 +38,16 @@
 
 				render.drawImage(body, 100, 150, 200, 200);
 
+				// stuff on the head
 				render.save();
 				render.translate(200, 150 + Number(neckOffset.value)); // position on canvas
 				render.rotate(Math.sin(t * 3.0) * 0.2);
 				render.translate(-100, -Number(headOffset.value)); // pivot
-				render.drawImage(head, 0, 0, 200, 200);
+				render.drawImage(head, 0, 0, 200, 200); // head
+				render.drawImage(Math.floor(t / 2.7) % 2 == 0 ? mouthClosed : mouthOpen, 75, 125, 50, 50); // mouth
+				render.drawImage(eyeLeftOpen, 35, 100, 50, 50); // eyes
+				render.scale(-1, 1);
+				render.drawImage(eyeLeftOpen, 35 - 200, 100, 50, 50);
 				render.restore();
 
 				if (neckPivotVisible) {
@@ -77,10 +90,11 @@
 		}
 	</script>
 	<style>
-		body { display: flex; gap: 1em; }
-		img { height: 100px; }
+		body { display: flex; gap: 1em; align-items: flex-start; justify-content: center; }
 		canvas { border: 1px solid black; }
 		input[type="range"] { transform: translateY(0.5em); }
+		.region { display: flex; gap: 1em; align-items: flex-start; border-bottom: 1px dotted grey; margin-bottom: 0.5em; }
+		.region > img { height: 100px; }
 	</style>
 </head>
 <body onload="start();">
@@ -88,26 +102,29 @@
 	<canvas id="canvas" width="400" height="400"></canvas>
 
 	<div>
-		<img id="preview-head" src="template_head.png">
-		<br>
-		<label for="input-head">Head:</label>
-		<input type="file" id="input-head" accept="image/*" onchange="readURL('head');">
+		<div class="region">
+			<img id="preview-head" src="template_head.png">
+			<div>
+				<label for="input-head">Head:</label>
+				<input type="file" id="input-head" accept="image/*" onchange="readURL('head');">
 
-		<br>
-		<label for="input-head">Head offset:</label>
-		<input type="range" min="0" max="200" value="157" class="slider" id="offset-head"
-			oninput="offsetHeadReadout.innerText = this.value;"
-			onmousedown="setNeckPivotVisible(true);"
-			onmouseup="setNeckPivotVisible(false);">
-		<span id="offset-head-readout"></span>
+				<br>
+				<label for="input-head">Head offset:</label>
+				<input type="range" min="0" max="200" value="157" class="slider" id="offset-head"
+					oninput="offsetHeadReadout.innerText = this.value;"
+					onmousedown="setNeckPivotVisible(true);"
+					onmouseup="setNeckPivotVisible(false);">
+				<span id="offset-head-readout"></span>
 
-		<br>
-		<label for="input-head">Neck offset:</label>
-		<input type="range" min="0" max="200" value="30" class="slider" id="offset-neck"
-			oninput="offsetNeckReadout.innerText = this.value;"
-			onmousedown="setNeckPivotVisible(true);"
-			onmouseup="setNeckPivotVisible(false);">
-		<span id="offset-neck-readout"></span>
+				<br>
+				<label for="input-head">Neck offset:</label>
+				<input type="range" min="0" max="200" value="30" class="slider" id="offset-neck"
+					oninput="offsetNeckReadout.innerText = this.value;"
+					onmousedown="setNeckPivotVisible(true);"
+					onmouseup="setNeckPivotVisible(false);">
+				<span id="offset-neck-readout"></span>
+			</div>
+		</div>
 
 		<script>
 			// initialize readouts
@@ -118,12 +135,73 @@
 			offsetNeckReadout.innerText = document.getElementById("offset-neck").value;
 		</script>
 
-		<hr>
+		<div class="region">
+			<img id="preview-body" src="template_body.png">
+			<div>
+				<label for="input-body">Body:</label>
+				<input type="file" id="input-body" accept="image/*" onchange="readURL('body');">
+			</div>
+		</div>
 
-		<img id="preview-body" src="template_body.png">
-		<br>
-		<label for="input-body">Body:</label>
-		<input type="file" id="input-body" accept="image/*" onchange="readURL('body');">
+		<div class="region">
+			<img id="preview-mouth-closed" src="template_mouth_closed.png">
+			<div>
+				<label for="input-mouth-closed">Mouth (closed):</label>
+				<input type="file" id="input-mouth-closed" accept="image/*" onchange="readURL('mouth-closed');">
+			</div>
+		</div>
+
+		<div class="region">
+			<img id="preview-mouth-open" src="template_mouth_open.png">
+			<div>
+				<label for="input-mouth-open">Mouth (open):</label>
+				<input type="file" id="input-mouth-open" accept="image/*" onchange="readURL('mouth-open');">
+			</div>
+		</div>
+
+		<div class="region">
+			<img id="preview-eye-left-open" src="template_eye_open.png">
+			<div>
+				<label for="input-eye-left-open">Left eye (open):</label>
+				<input type="file" id="input-eye-left-open" accept="image/*" onchange="readURL('eye-left-open');">
+				<br>
+				<input type="checkbox" id="mirror-eye-left-open">
+				<label for="mirror-eye-left-open"> Mirror</label>
+			</div>
+		</div>
+
+		<div class="region">
+			<img id="preview-eye-left-closed" src="template_eye_closed.png">
+			<div>
+				<label for="input-eye-left-closed">Left eye (closed):</label>
+				<input type="file" id="input-eye-left-closed" accept="image/*" onchange="readURL('eye-left-closed');">
+				<br>
+				<input type="checkbox" id="mirror-eye-left-closed">
+				<label for="mirror-eye-left-closed"> Mirror</label>
+			</div>
+		</div>
+
+		<div class="region">
+			<img id="preview-eye-right-open" src="template_eye_open.png">
+			<div>
+				<label for="input-eye-right-open">Right eye (open):</label>
+				<input type="file" id="input-eye-right-open" accept="image/*" onchange="readURL('eye-right-open');">
+				<br>
+				<input type="checkbox" id="mirror-eye-right-open" checked>
+				<label for="mirror-eye-right-open"> Mirror</label>
+			</div>
+		</div>
+
+		<div class="region">
+			<img id="preview-eye-right-closed" src="template_eye_closed.png">
+			<div>
+				<label for="input-eye-right-closed">Right eye (closed):</label>
+				<input type="file" id="input-eye-right-closed" accept="image/*" onchange="readURL('eye-right-closed');">
+				<br>
+				<input type="checkbox" id="mirror-eye-right-closed" checked>
+				<label for="mirror-eye-right-closed"> Mirror</label>
+			</div>
+		</div>
 	</div>
 
 </body>
