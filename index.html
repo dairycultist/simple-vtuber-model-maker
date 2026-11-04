@@ -32,6 +32,7 @@
 
 			const headOffset = document.getElementById("offset-head");
 			const neckOffset = document.getElementById("offset-neck");
+			const mouthOffset = document.getElementById("offset-mouth");
 
 			const dt = 1000 / 60;
 
@@ -49,7 +50,7 @@
 				render.rotate(Math.sin(t * 3.0) * 0.2);
 				render.translate(-100, -Number(headOffset.value)); // pivot
 				render.drawImage(head, 0, 0, 200, 200); // head
-				render.drawImage(Math.floor(t / 2.7) % 2 == 0 ? mouthClosed : mouthOpen, 75, 125, 50, 50); // mouth
+				render.drawImage(Math.floor(t / 2.7) % 2 == 0 ? mouthClosed : mouthOpen, 75, Number(mouthOffset.value), 50, 50); // mouth
 
 				// eyes
 				if (Math.floor(t * 8.3) % 20 == 0) {
@@ -138,7 +139,7 @@
 				<input type="file" id="input-head" accept="image/*" onchange="readURL('head');">
 
 				<br>
-				<label for="input-head">Head offset:</label>
+				<label for="offset-head">Head offset:</label>
 				<input type="range" min="0" max="200" value="157" class="slider" id="offset-head"
 					oninput="offsetHeadReadout.innerText = this.value;"
 					onmousedown="setNeckPivotVisible(true);"
@@ -146,7 +147,7 @@
 				<span id="offset-head-readout"></span>
 
 				<br>
-				<label for="input-head">Neck offset:</label>
+				<label for="offset-neck">Neck offset:</label>
 				<input type="range" min="0" max="200" value="30" class="slider" id="offset-neck"
 					oninput="offsetNeckReadout.innerText = this.value;"
 					onmousedown="setNeckPivotVisible(true);"
@@ -171,6 +172,21 @@
 				<input type="file" id="input-body" accept="image/*" onchange="readURL('body');">
 			</div>
 		</div>
+
+		<div class="region">
+			<div>
+				<label for="offset-mouth">Mouth offset:</label>
+				<input type="range" min="0" max="150" value="125" class="slider" id="offset-mouth" oninput="offsetMouthReadout.innerText = this.value;">
+				<span id="offset-mouth-readout"></span>
+			</div>
+		</div>
+
+		<script>
+			// initialize readout
+			const offsetMouthReadout = document.getElementById("offset-mouth-readout");
+
+			offsetMouthReadout.innerText = document.getElementById("offset-mouth").value;
+		</script>
 
 		<div class="region">
 			<img id="preview-mouth-closed" src="template_mouth_closed.png">
