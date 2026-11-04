@@ -25,6 +25,11 @@
 			const eyeRightOpen   = document.getElementById("preview-eye-right-open");
 			const eyeRightClosed = document.getElementById("preview-eye-right-closed");
 
+			const eyeLeftOpenMirror    = document.getElementById("mirror-eye-left-open");
+			const eyeLeftClosedMirror  = document.getElementById("mirror-eye-left-closed");
+			const eyeRightOpenMirror   = document.getElementById("mirror-eye-right-open");
+			const eyeRightClosedMirror = document.getElementById("mirror-eye-right-closed");
+
 			const headOffset = document.getElementById("offset-head");
 			const neckOffset = document.getElementById("offset-neck");
 
@@ -45,9 +50,33 @@
 				render.translate(-100, -Number(headOffset.value)); // pivot
 				render.drawImage(head, 0, 0, 200, 200); // head
 				render.drawImage(Math.floor(t / 2.7) % 2 == 0 ? mouthClosed : mouthOpen, 75, 125, 50, 50); // mouth
-				render.drawImage(eyeLeftOpen, 35, 100, 50, 50); // eyes
-				render.scale(-1, 1);
-				render.drawImage(eyeLeftOpen, 35 - 200, 100, 50, 50);
+
+				// eyes
+				if (Math.floor(t * 8.3) % 20 == 0) {
+
+					if (!eyeLeftClosedMirror.checked)
+						render.drawImage(eyeLeftClosed, 35, 100, 50, 50);
+					if (!eyeRightClosedMirror.checked)
+						render.drawImage(eyeRightClosed, 200 - 50 - 35, 100, 50, 50);
+					render.scale(-1, 1);
+					if (eyeLeftClosedMirror.checked)
+						render.drawImage(eyeLeftClosed, -50 - 35, 100, 50, 50);
+					if (eyeRightClosedMirror.checked)
+						render.drawImage(eyeRightClosed, 35 - 200, 100, 50, 50);
+
+				} else {
+
+					if (!eyeLeftOpenMirror.checked)
+						render.drawImage(eyeLeftOpen, 35, 100, 50, 50);
+					if (!eyeRightOpenMirror.checked)
+						render.drawImage(eyeRightOpen, 200 - 50 - 35, 100, 50, 50);
+					render.scale(-1, 1);
+					if (eyeLeftOpenMirror.checked)
+						render.drawImage(eyeLeftOpen, -50 - 35, 100, 50, 50);
+					if (eyeRightOpenMirror.checked)
+						render.drawImage(eyeRightOpen, 35 - 200, 100, 50, 50);
+				}
+
 				render.restore();
 
 				if (neckPivotVisible) {
