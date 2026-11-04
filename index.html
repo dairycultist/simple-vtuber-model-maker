@@ -194,7 +194,7 @@
 				<label for="input-eye-left-open">Left eye (open):</label>
 				<input type="file" id="input-eye-left-open" accept="image/*" onchange="readURL('eye-left-open');">
 				<br>
-				<input type="checkbox" id="mirror-eye-left-open">
+				<input type="checkbox" id="mirror-eye-left-open" onchange="eyeLeftOpenPreview.style.transform = this.checked ? 'scaleX(-1)' : '';">
 				<label for="mirror-eye-left-open"> Mirror</label>
 			</div>
 		</div>
@@ -205,32 +205,45 @@
 				<label for="input-eye-left-closed">Left eye (closed):</label>
 				<input type="file" id="input-eye-left-closed" accept="image/*" onchange="readURL('eye-left-closed');">
 				<br>
-				<input type="checkbox" id="mirror-eye-left-closed">
+				<input type="checkbox" id="mirror-eye-left-closed" onchange="eyeLeftClosedPreview.style.transform = this.checked ? 'scaleX(-1)' : '';">
 				<label for="mirror-eye-left-closed"> Mirror</label>
 			</div>
 		</div>
 
 		<div class="region">
-			<img id="preview-eye-right-open" src="template_eye_open.png">
+			<img id="preview-eye-right-open" src="template_eye_open.png" style="transform: scaleX(-1);">
 			<div>
 				<label for="input-eye-right-open">Right eye (open):</label>
 				<input type="file" id="input-eye-right-open" accept="image/*" onchange="readURL('eye-right-open');">
 				<br>
-				<input type="checkbox" id="mirror-eye-right-open" checked>
+				<input type="checkbox" id="mirror-eye-right-open" checked onchange="eyeRightOpenPreview.style.transform = this.checked ? 'scaleX(-1)' : '';">
 				<label for="mirror-eye-right-open"> Mirror</label>
 			</div>
 		</div>
 
 		<div class="region">
-			<img id="preview-eye-right-closed" src="template_eye_closed.png">
+			<img id="preview-eye-right-closed" src="template_eye_closed.png" style="transform: scaleX(-1);">
 			<div>
 				<label for="input-eye-right-closed">Right eye (closed):</label>
 				<input type="file" id="input-eye-right-closed" accept="image/*" onchange="readURL('eye-right-closed');">
 				<br>
-				<input type="checkbox" id="mirror-eye-right-closed" checked>
+				<input type="checkbox" id="mirror-eye-right-closed" checked onchange="eyeRightClosedPreview.style.transform = this.checked ? 'scaleX(-1)' : '';">
 				<label for="mirror-eye-right-closed"> Mirror</label>
 			</div>
 		</div>
+
+		<script>
+			// initialize preview mirroring
+			const eyeLeftOpenPreview    = document.getElementById("preview-eye-left-open");
+			const eyeLeftClosedPreview  = document.getElementById("preview-eye-left-closed");
+			const eyeRightOpenPreview   = document.getElementById("preview-eye-right-open");
+			const eyeRightClosedPreview = document.getElementById("preview-eye-right-closed");
+
+			eyeLeftOpenPreview.style.transform    = document.getElementById("mirror-eye-left-open").checked ? "scaleX(-1)" : "";
+			eyeLeftClosedPreview.style.transform  = document.getElementById("mirror-eye-left-closed").checked ? "scaleX(-1)" : "";
+			eyeRightOpenPreview.style.transform   = document.getElementById("mirror-eye-right-open").checked ? "scaleX(-1)" : "";
+			eyeRightClosedPreview.style.transform = document.getElementById("mirror-eye-right-closed").checked ? "scaleX(-1)" : "";
+		</script>
 	</div>
 
 </body>
